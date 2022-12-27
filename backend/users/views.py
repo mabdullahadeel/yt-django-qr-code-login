@@ -40,7 +40,7 @@ class UserCreateView(generics.CreateAPIView):
 class CodeAuthView(APIView):
     permission_classes = (AllowAny,)
     
-    def get(self, request: HttpRequest, ws_token: str) -> Response:
+    def get(self, request: HttpRequest) -> Response:
         ws_cookie = request.COOKIES.get("ws_token")
         if ws_cookie and cache.has_key(ws_cookie):
             return Response({"ws_token": ws_cookie}, status=status.HTTP_200_OK)
