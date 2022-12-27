@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 3rd party pass
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     # internals apps
     "users.apps.UsersConfig",
 ]
@@ -108,6 +109,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication"
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated"
+    ]
+}
 
 
 # Internationalization
