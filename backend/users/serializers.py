@@ -12,7 +12,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, max_length=45)
     
     class Meta:
-        model: User
+        model = User
         fields: list[str] = ["email", "username", "password"]
         
     def create(self, validated_data: dict) -> User:
