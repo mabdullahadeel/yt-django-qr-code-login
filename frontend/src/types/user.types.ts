@@ -22,3 +22,7 @@ export interface UserLoginPaylod {
 export interface UserRegisterPaylod extends UserLoginPaylod {
   email: string;
 }
+
+export interface CodeAuthResponse {
+  ws_token: string;
+}

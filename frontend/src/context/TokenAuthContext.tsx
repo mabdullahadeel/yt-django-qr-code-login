@@ -23,6 +23,7 @@ interface AuthContextValue extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (payload: UserRegisterPaylod) => Promise<void>;
+  codeLogin: (token: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -111,6 +112,7 @@ export const AuthContext = createContext<AuthContextValue>({
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
+  codeLogin: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
@@ -199,6 +201,24 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     }
   };
 
+  const codeLogin = async (token: string): Promise<void> => {
+    try {
+      setSession(token);
+      const { data: user } = await authApi.me();
+
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      resetSession();
+      throw new Error("Invalid credentials");
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -207,6 +227,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         login,
         logout,
         register,
+        codeLogin,
       }}
     >
       {children}
